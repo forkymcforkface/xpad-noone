@@ -89,6 +89,7 @@
 #define ABS_PROFILE ABS_MISC
 #endif
 
+#define IS_XBOXONE(xtype) ((xtype) == XTYPE_XBOXONE)
 #define XPAD_PKT_LEN 64
 
 /* The Guitar Hero Live (GHL) Xbox One dongles require a poke 
@@ -2358,6 +2359,11 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
 	xpad->intf = intf;
 	xpad->mapping = xpad_device[i].mapping;
 	xpad->xtype = xpad_device[i].xtype;
+	if (IS_XBOXONE(xpad->xtype)) {
+	    dev_info(&intf->dev, "Blocking all Xbox One controllers\n");
+	    error = -ENODEV;
+	    goto err_free_in_urb;
+	}
 	xpad->name = xpad_device[i].name;
 	xpad->quirks = xpad_device[i].quirks;
 	xpad->packet_type = PKT_XB;
