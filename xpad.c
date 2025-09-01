@@ -2608,7 +2608,7 @@ static int xpad_resume(struct usb_interface *intf)
 }
 
 static struct usb_driver xpad_driver = {
-	.name		= "xpad",
+	.name		= "xpad-noone",
 	.probe		= xpad_probe,
 	.disconnect	= xpad_disconnect,
 	.suspend	= xpad_suspend,
