@@ -1,0 +1,30 @@
+name: Sync paroj/xpad → fork
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - run: |
+          git remote add upstream https://github.com/paroj/xpad.git
+          git fetch upstream
+
+      - run: |
+          git checkout master
+          git rebase upstream/master
+
+      - run: |
+          git push origin master --force-with-lease
