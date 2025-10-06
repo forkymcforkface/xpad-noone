@@ -1,9 +1,9 @@
 name: Sync xpad.c from Linux Mainline
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual runs from the Actions tab
   schedule:
-    - cron: '30 5 * * *'
+    - cron: '30 5 * * *' # Runs automatically every day
 
 jobs:
   sync:
