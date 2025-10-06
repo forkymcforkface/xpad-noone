@@ -1,0 +1,42 @@
+name: Sync xpad.c from Linux Mainline
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 5 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the linux-mainline branch
+        uses: actions/checkout@v4
+        with:
+          ref: 'linux-mainline' # Action now runs on your testing branch
+
+      - name: Download latest xpad.c from torvalds/linux
+        run: |
+          # Download the file and save it as xpad-mainline.c
+          curl -o xpad-mainline.c https://raw.githubusercontent.com/torvalds/linux/master/drivers/input/joystick/xpad.c
+          echo "✅ Downloaded latest kernel driver to xpad-mainline.c"
+
+      - name: Apply the 'skip-xboxone' patch
+        run: |
+          # Apply the patch directly to the new mainline file
+          patch xpad-mainline.c < skip-xboxone.patch
+          echo "✅ Applied patch to skip Xbox One devices"
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          # Add the modified xpad-mainline.c to staging
+          git add xpad-mainline.c
+          # Commit only if there are changes to the file
+          if ! git diff --staged --quiet; then
+            git commit -m "Automated Sync: Update xpad-mainline.c from kernel and apply patches"
+            git push
+            echo "✅ Committed and pushed changes to xpad-mainline.c."
+          else
+            echo "✅ No changes to xpad-mainline.c. Nothing to commit."
+          fi
