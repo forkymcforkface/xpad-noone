@@ -1,0 +1,25 @@
+--- a/xpad.c
++++ b/xpad.c
+@@ -2448,6 +2448,13 @@
+ 	xpad->intf = intf;
+ 	xpad->mapping = xpad_device[i].mapping;
+ 	xpad->xtype = xpad_device[i].xtype;
++
++	/* Block Xbox One controllers to allow the xone driver to handle them */
++	if (xpad->xtype == XTYPE_XBOXONE) {
++		dev_info(&intf->dev, "xpad: Xbox One controller detected, handing off to xone\n");
++		error = -ENODEV;
++		goto err_free_devm_xpad;
++	}
+ 	xpad->name = xpad_device[i].name;
+ 	xpad->quirks = xpad_device[i].quirks;
+ 
+@@ -2695,7 +2702,7 @@
+ }
+ 
+ static struct usb_driver xpad_driver = {
+-	.name		= "xpad",
++	.name		= "xpad-noone",
+ 	.probe		= xpad_probe,
+ 	.disconnect	= xpad_disconnect,
+ 	.suspend	= xpad_suspend,
