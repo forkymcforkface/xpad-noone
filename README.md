@@ -39,6 +39,7 @@ sudo modprobe -r xpad-noone || true
 sudo dkms remove -m xpad-noone -v 1.0 --all
 sudo rm -rf /usr/src/xpad-noone-1.0
 sudo rm -f /etc/modules-load.d/xpad-noone.conf
+sudo modprobe xpad
 ```
 # Usage
 This driver creates three devices for each attached gamepad
