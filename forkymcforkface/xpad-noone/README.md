@@ -6,3 +6,5 @@
 
 **Latest report PDF**: [report.pdf](https://github.com/forkymcforkface/xpad-noone/raw/github-repo-stats/forkymcforkface/xpad-noone/latest-report/report.pdf)
 
+
+**Latest report HTML via GitHub pages**: [report.html](https://forkymcforkface.github.io/xpad-noone/forkymcforkface/xpad-noone/latest-report/report.html)
