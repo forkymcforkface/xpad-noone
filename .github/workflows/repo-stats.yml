@@ -2,9 +2,9 @@ name: github-repo-stats
 
 on:
   schedule:
-    # Run daily at 23:00 UTC. GitHub only keeps 14 days of traffic data,
+    # Run monthly on the 1st at 23:00 UTC. GitHub only keeps 14 days of traffic data,
     # so this accumulates clone/view history over time in a data branch.
-    - cron: '0 23 * * *'
+    - cron: '0 23 1 * *'
   workflow_dispatch:
 
 jobs:
